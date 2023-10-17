@@ -16,6 +16,17 @@ const Header = () => {
                     </span>
                 </h1>
             </Link>
+            <ul className='flex gap-4'>
+                <Link to='/'>
+                <li className='hidden sm:inline text-black hover:text-green-500'> Home </li>
+                </Link>
+                <Link to='/About'>
+                <li className=' hidden sm:inline text-black hover:text-green-500'> About </li>
+                </Link>
+                <Link to='/sign-in'>
+                <li className=' text-black hover:text-green-500'> Sign in </li>
+                </Link>
+            </ul>
             <form className='bg-gradient-to-t from-white to-lime-400 p-3 rounded-lg flex items-center '>
                 <input
                 type="text"
@@ -23,17 +34,6 @@ const Header = () => {
                 placeholder='Search' />
                 <FaSearch className='text-black'/>
             </form>
-            <ul className='flex gap-4'>
-                <Link to='/'>
-                <li className='hidden sm:inline text-white hover:text-black'> Home </li>
-                </Link>
-                <Link to='/About'>
-                <li className=' hidden sm:inline text-white hover:text-black'> About </li>
-                </Link>
-                <Link to='/sign-in'>
-                <li className=' text-white hover:text-black'> Sign in </li>
-                </Link>
-            </ul>
         </div>
     </header>
   )
