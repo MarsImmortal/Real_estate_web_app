@@ -9,7 +9,7 @@ export const signup = async (req, res, next) => {
         await newUser.save(); 
         res.status(200).json({message : 'User saved successfully' });
     } catch (e) {
-        res.status(500).json({message : e.message});
+        next(e);
     }
 }
 // Compare this snippet from api/routes/auth.routes.js:
