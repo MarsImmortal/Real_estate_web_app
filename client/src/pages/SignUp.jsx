@@ -36,9 +36,13 @@ const SignUp = () => {
         }
       })
       .catch((err) => {
+
+        if (err.response.data.message.includes('E11000'))
+          setError(`Username or email already exists`);
+        
         // Handle network errors
-        setError(`Username or email address already exists`);
-        console.log(err);
+        // setError(`${err.response.data.message}`);
+        console.log(err.response.data.message);
       })
       .finally(() => {
         setLoading(false);
