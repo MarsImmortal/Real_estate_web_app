@@ -17,28 +17,32 @@ const SignUp = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try 
-    {
-      setLoading(true);
-      const res = await axios.post('/api/auth/signup', userData, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      const data = await res.data;
-      if (data.success === false)
-      {
-        setError(data.message);
-        setLoading(false);
-        return;
-      }
-      setLoading(false);
-      setError(null);
-      navigate('/sign-in');
-    } catch (error) {
-      setLoading(false);
-      setError(error.message);
+    if (!userData.username || !userData.email || !userData.password) {
+      setError('Please fill in all required fields.');
+      return;
     }
+    setLoading(true);
+    axios
+      .post('/api/auth/signup', userData)
+      .then((res) => {
+        console.log(res);
+        const data = res.data;
+        if (data.success === false) {
+          // Display the error message and status code
+          setError(`Error ${res.status}: ${data.message}`);
+        } else {
+          setError(null);
+          navigate('/sign-in');
+        }
+      })
+      .catch((err) => {
+        // Handle network errors
+        setError(`Username or email address already exists`);
+        console.log(err);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
   return (
     <div className='p-3 max-w-lg mx-auto '>
