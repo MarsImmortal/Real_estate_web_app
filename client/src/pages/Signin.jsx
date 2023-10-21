@@ -1,27 +1,30 @@
 import {useState} from 'react';
 import {Link, useNavigate} from 'react-router-dom'; 
 import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { signInStart, signInFailure , signInSuccess } from '../redux/user/userSlice';
+
 
 const SignIn = () => {
   const [userData, setUserData] = useState({});
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
+  // const [error, setError] = useState(null);
+  const { loading, error} = useSelector((state) => state.user); 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const handleChange = (e) => {
     setUserData({
       ...userData,
       [e.target.id]: e.target.value, 
     });
-  }; 
-
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!userData.email || !userData.password) {
-      setError('Please fill in all required fields.');
+      // setError('Please fill in all required fields.');
       return;
     }
-    setLoading(true);
+     dispatch(signInStart());
     axios
       .post('/api/auth/signin', userData)
       .then((res) => {
@@ -29,19 +32,15 @@ const SignIn = () => {
         const data = res.data;
         if (data.success === false) {
           // Display the error message and status code
-          setError(`Error ${res.status}: ${data.message}`);
+          dispatch(signInFailure(error));
         } else {
-          setError(null);
-          navigate('/');
+          dispatch(signInSuccess(data));
+          navigate('/'); 
         }
       })
-      .catch((err) => {
-        setError(err.response.data.message);
-        console.log(err.response.data.message);
+      .catch((error) => {
+        dispatch(signInFailure(error.response.data.message));
       })
-      .finally(() => {
-        setLoading(false);
-      });
   };
   return (
     <div className='p-3 max-w-lg mx-auto '>
