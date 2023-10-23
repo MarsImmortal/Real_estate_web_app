@@ -1,6 +1,7 @@
 import {useState} from 'react';
 import {Link, useNavigate} from 'react-router-dom'; 
 import axios from 'axios';
+import OAuth from '../components/OAuth';
 
 const SignUp = () => {
   const [userData, setUserData] = useState({});
@@ -56,6 +57,7 @@ const SignUp = () => {
         <input type="email" placeholder='email' className='border p-3 rounded-lg' id='email' onChange={handleChange}/>
         <input type="password" placeholder='password' className='border p-3 rounded-lg' id='password' onChange={handleChange}/>
         <button disabled = {loading} className='p-3 bg-green-600 rounded-3xl uppercase hover:opacity-80 disabled:opacity-20 '>{loading ? 'loading...' : 'Register Now !'}</button>
+        <OAuth/>
       </form>
         <div className='text-center flex gap-2 mt-3'>
           Already have an account ? 
