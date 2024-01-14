@@ -95,6 +95,30 @@ const Profile = () => {
       dispatch(updateUserFailure(error.message));
       })
   }
+
+const handleDeleteUser = async () =>
+{
+
+  dispatch(deleteUserStart());
+  axios
+  .delete(`/api/user/delete/${currentUser._id}`)
+  .then( async (res) =>{
+    const data = await res.data;
+    // console.log(data);
+    if (data.sucess === false) {
+      dispatch(deleteUserFailure(data.message));
+      return;
+    }
+    else{
+      dispatch(deleteUserSuccess(data))
+      // dispatch(signOutUserStart());
+    }
+  })
+  .catch ((error) =>{
+    dispatch(deleteUserFailure(error.message));
+  })
+}
+
   return (
     <div className=" p-3 max-w-lg mx-auto">
       <h1 className=' text-3xl font-semibold text-center my-7'>Profile</h1>
@@ -150,7 +174,7 @@ const Profile = () => {
         </button>
       </form>
       <div className="gap-4 flex flex-wrap justify-between ">
-        <span className=" text-red-700 hover:text-red-400 cursor-pointer p-3">Delete Account</span>
+        <span onClick = {handleDeleteUser} className=" text-red-700 hover:text-red-400 cursor-pointer p-3">Delete Account</span>
         <span className=" text-red-700 hover:text-red-400 cursor-pointer p-3">SignOut</span>
       </div>
       <p 
