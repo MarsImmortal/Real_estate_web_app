@@ -29,7 +29,7 @@ const SignIn = () => {
     axios
       .post('/api/auth/signin', userData)
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         const data = res.data;
         if (data.success === false) {
           // Display the error message and status code
