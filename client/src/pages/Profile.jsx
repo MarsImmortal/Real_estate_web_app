@@ -119,6 +119,22 @@ const handleDeleteUser = async () =>
   })
 }
 
+const handleSignOut = async() => {
+  dispatch(signOutUserStart());
+  axios.get('/api/auth/signout')
+  .then(async (res)=>{
+    const data = await res.data;
+    if (data.success === false) {
+      dispatch(deleteUserFailure(data.message));
+      return;
+    }
+    dispatch(deleteUserSuccess(data))
+  }).catch((error)=>{
+    dispatch(deleteUserFailure(data.message));
+  });
+
+}
+
   return (
     <div className=" p-3 max-w-lg mx-auto">
       <h1 className=' text-3xl font-semibold text-center my-7'>Profile</h1>
@@ -175,7 +191,7 @@ const handleDeleteUser = async () =>
       </form>
       <div className="gap-4 flex flex-wrap justify-between ">
         <span onClick = {handleDeleteUser} className=" text-red-700 hover:text-red-400 cursor-pointer p-3">Delete Account</span>
-        <span className=" text-red-700 hover:text-red-400 cursor-pointer p-3">SignOut</span>
+        <span onClick = {handleSignOut} className=" text-red-700 hover:text-red-400 cursor-pointer p-3">SignOut</span>
       </div>
       <p 
       className='text-red-700 mt-5'>
